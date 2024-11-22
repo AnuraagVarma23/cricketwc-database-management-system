@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Player</title>
+</head>
+<body>
+    <h1>Edit Player: {{ player.player_name }}</h1>
+    <form action="{{ url_for('edit_player') }}" method="POST">
+        <input type="hidden" name="player_id" value="{{ player.player_id }}">
+
+        <label for="player_name">Player Name:</label>
+        <input type="text" id="player_name" name="player_name" value="{{ player.player_name }}" required><br>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" name="dob" value="{{ player.dob|default('') }}" required><br>
+
+        <label for="type_of_player">Type of Player:</label>
+        <input type="text" id="type_of_player" name="type_of_player" value="{{ player.type_of_player|default('') }}" required><br>
+
+        <label for="total_runs">Total Runs:</label>
+        <input type="number" id="total_runs" name="total_runs" value="{{ player.total_runs|default(0) }}" min="0"><br>
+
+        <label for="t20">T20 Matches:</label>
+        <input type="number" id="t20" name="t20" value="{{ player.t20|default(0) }}" min="0"><br>
+
+        <label for="test">Test Matches:</label>
+        <input type="number" id="test" name="test" value="{{ player.test|default(0) }}" min="0"><br>
+
+        <label for="odi">ODI Matches:</label>
+        <input type="number" id="odi" name="odi" value="{{ player.odi|default(0) }}" min="0"><br>
+
+        <label for="batting_average">Batting Average:</label>
+        <input type="number" step="0.01" id="batting_average" name="batting_average" value="{{ player.batting_average|default(0.0) }}"><br>
+
+        <label for="no_of_sixes">Number of Sixes:</label>
+        <input type="number" id="no_of_sixes" name="no_of_sixes" value="{{ player.no_of_sixes|default(0) }}" min="0"><br>
+
+        <label for="no_of_fours">Number of Fours:</label>
+        <input type="number" id="no_of_fours" name="no_of_fours" value="{{ player.no_of_fours|default(0) }}" min="0"><br>
+
+        <label for="economy">Economy:</label>
+        <input type="number" step="0.01" id="economy" name="economy" value="{{ player.economy|default(0.0) }}"><br>
+
+        <label for="no_of_wickets">Number of Wickets:</label>
+        <input type="number" id="no_of_wickets" name="no_of_wickets" value="{{ player.no_of_wickets|default(0) }}" min="0"><br>
+
+        <label for="highest_score">Highest Score:</label>
+        <input type="number" id="highest_score" name="highest_score" value="{{ player.highest_run_scored|default(0) }}"><br>
+
+        <button type="submit">Update Player</button>
+    </form>
+</body>
+</html>

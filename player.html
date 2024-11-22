@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ player.player_name }} Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+    <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+</head>
+<body>
+    <h1>{{ player.player_name }} Details</h1>
+    <table>
+        <tbody>
+            <tr>
+                <th>Player ID:</th>
+                <td>{{ player.player_id }}</td>
+            </tr>
+            <tr>
+                <th>Date of Birth:</th>
+                <td>{{ player.dob }}</td>
+            </tr>
+            <tr>
+                <th>Type of Player:</th>
+                <td>{{ player.type_of_player }}</td>
+            </tr>
+            <tr>
+                <th>Total Runs:</th>
+                <td>{{ player.total_runs }}</td>
+            </tr>
+            <tr>
+                <th>T20 Matches:</th>
+                <td>{{ player.t20 }}</td>
+            </tr>
+            <tr>
+                <th>Test Matches:</th>
+                <td>{{ player.test }}</td>
+            </tr>
+            <tr>
+                <th>ODI Matches:</th>
+                <td>{{ player.odi }}</td>
+            </tr>
+            <tr>
+                <th>Batting Average:</th>
+                <td>{{ player.batting_average }}</td>
+            </tr>
+            <tr>
+                <th>No. of Sixes:</th>
+                <td>{{ player.no_of_sixes }}</td>
+            </tr>
+            <tr>
+                <th>No. of Fours:</th>
+                <td>{{ player.no_of_fours }}</td>
+            </tr>
+            <tr>
+                <th>Economy:</th>
+                <td>{{ player.economy }}</td>
+            </tr>
+            <tr>
+                <th>No. of Wickets:</th>
+                <td>{{ player.no_of_wickets }}</td>
+            </tr>
+            <tr>
+                <th>Highest Run Scored:</th>
+                <td>{{ player.highest_run_scored }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Edit Button -->
+    <button onclick="editPlayer(
+        '{{ player.player_id }}',
+        '{{ player.player_name }}',
+        '{{ player.dob }}',
+        '{{ player.type_of_player }}',
+        '{{ player.total_runs }}',
+        '{{ player.t20 }}',
+        '{{ player.test }}',
+        '{{ player.odi }}',
+        '{{ player.batting_average }}',
+        '{{ player.no_of_sixes }}',
+        '{{ player.no_of_fours }}',
+        '{{ player.economy }}',
+        '{{ player.no_of_wickets }}',
+        '{{ player.highest_run_scored }}'
+    )">Edit</button>
+
+    <!-- Edit Form (Initially Hidden) -->
+    <div id="edit-player-form" style="display: none;">
+        <h2>Edit Player</h2>
+        <form action="/update_player" method="POST">
+            <input type="hidden" id="edit-player-id" name="playerId">
+            <label for="edit-player-name">Name:</label>
+            <input type="text" id="edit-player-name" name="playerName">
+            
+            <label for="edit-player-dob">Date of Birth:</label>
+            <input type="date" id="edit-player-dob" name="dob">
+            
+            <label for="edit-player-type">Type of Player:</label>
+            <input type="text" id="edit-player-type" name="typeOfPlayer">
+            
+            <label for="edit-player-total-runs">Total Runs:</label>
+            <input type="number" id="edit-player-total-runs" name="totalRuns">
+            
+            <!-- Repeat similar fields for each player attribute -->
+            
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+</body>
+</html>

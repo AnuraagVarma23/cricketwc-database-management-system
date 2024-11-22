@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Match</title>
+</head>
+<body>
+    <h1>Edit Match</h1>
+    <form action="/edit_match" method="post">
+        <input type="hidden" name="match_id" value="{{ match.match_id }}">
+        <label for="team1">Team 1:</label>
+        <select name="team1" id="team1" required>
+            {% for team in teams %}
+            <option value="{{ team.team_id }}" {% if team.team_id == match.team1 %}selected{% endif %}>
+                {{ team.team_name }}
+            </option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="team2">Team 2:</label>
+        <select name="team2" id="team2" required>
+            {% for team in teams %}
+            <option value="{{ team.team_id }}" {% if team.team_id == match.team2 %}selected{% endif %}>
+                {{ team.team_name }}
+            </option>
+            {% endfor %}
+        </select>
+        <br>
+        <label for="match_date">Match Date:</label>
+        <input type="date" name="match_date" id="match_date" value="{{ match.match_date }}" required>
+        <br>
+        <label for="location">Location:</label>
+        <input type="text" name="location" id="location" value="{{ match.location }}">
+        <br>
+        <button type="submit">Update Match</button>
+    </form>
+</body>
+</html>

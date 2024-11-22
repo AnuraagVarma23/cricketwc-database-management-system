@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+    <script src="{{ url_for('static', filename='js/player.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <script>
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.style.display = 'none');
+            document.getElementById(tabId).style.display = 'block';
+        }
+        
+        function editPlayer(player_id, player_name, dob, type_of_player, total_runs, t20, test, odi, batting_average, no_of_sixes, no_of_fours, economy, no_of_wickets, highest_run_scored) {
+            document.getElementById('edit-player-id').value = player_id;
+            document.getElementById('edit-player-name').value = player_name;
+            document.getElementById('edit-player-dob').value = dob;
+            document.getElementById('edit-player-type').value = type_of_player;
+            document.getElementById('edit-player-total-runs').value = total_runs;
+            document.getElementById('edit-player-t20').value = t20;
+            document.getElementById('edit-player-test').value = test;
+            document.getElementById('edit-player-odi').value = odi;
+            document.getElementById('edit-player-batting-average').value = batting_average;
+            document.getElementById('edit-player-no-of-sixes').value = no_of_sixes;
+            document.getElementById('edit-player-no-of-fours').value = no_of_fours;
+            document.getElementById('edit-player-economy').value = economy;
+            document.getElementById('edit-player-no-of-wickets').value = no_of_wickets;
+            document.getElementById('edit-player-highest-run-scored').value = highest_run_scored;
+            showTab('edit-player-form');
+        }
+
+        function deletePlayer(player_id) {
+            if (confirm("Are you sure you want to delete this player?")) {
+                fetch(`/delete_player/${player_id}`, { method: 'POST' })
+                    .then(response => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert("Failed to delete player.");
+                        }
+                    });
+            }
+        }
+    </script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="#players" onclick="showTab('players')">Players</a></li>
+            <li><a href="#teams" onclick="showTab('teams')">Teams</a></li>
+            <li><a href="#matches" onclick="showTab('matches')">Matches</a></li>
+            <li><a href="#umpires" onclick="showTab('umpires')">Umpires</a></li>
+        </ul>
+    </nav>
+
+    <div class="admin-container">
+        <h1>Welcome Admin!</h1>
+
+        <!-- Players Section -->
+        <section id="players" class="tab-content">
+            <h2>All Players</h2>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Player ID</th>
+                            <th>Player Name</th>
+                            <th>Date of Birth</th>
+                            <th>Type of Player</th>
+                            <th>Total Runs</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for player in players %}
+                        <tr>
+                            <td>{{ player.player_id }}</td>
+                            <td>{{ player.player_name }}</td>
+                            <td>{{ player.dob }}</td>
+                            <td>{{ player.type_of_player }}</td>
+                            <td>{{ player.total_runs }}</td>
+                            <td>
+                                <button onclick="editPlayer('{{ player.player_id }}', '{{ player.player_name }}', '{{ player.dob }}', '{{ player.type_of_player }}', '{{ player.total_runs }}', '{{ player.t20 }}', '{{ player.test }}', '{{ player.odi }}', '{{ player.batting_average }}', '{{ player.no_of_sixes }}', '{{ player.no_of_fours }}', '{{ player.economy }}', '{{ player.no_of_wickets }}', '{{ player.highest_run_scored }}')">Edit</button>
+                                <button onclick="deletePlayer('{{ player.player_id }}')">Delete</button>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <hr>
+
+            <h2>Add New Player</h2>
+            <form action="/add_player" method="POST">
+                <input type="text" name="player_name" placeholder="Player Name" required /><br />
+                <input type="date" name="dob" placeholder="Date of Birth" required /><br />
+                <input type="text" name="type_of_player" placeholder="Type of Player" required /><br />
+                <input type="number" name="total_runs" placeholder="Total Runs" required /><br />
+                <!-- Additional fields as needed -->
+                <button type="submit">Add Player</button>
+            </form>
+        </section>
+
+        <!-- Edit Player Section -->
+        <section id="edit-player-form" class="tab-content" style="display: none;">
+            <h2>Edit Player</h2>
+            <form action="/edit_player" method="POST">
+                <input type="hidden" id="edit-player-id" name="player_id" />
+                <input type="text" id="edit-player-name" name="player_name" placeholder="Player Name" required /><br />
+                <input type="date" id="edit-player-dob" name="dob" required /><br />
+                <input type="text" id="edit-player-type" name="type_of_player" placeholder="Type of Player" required /><br />
+                <input type="number" id="edit-player-total-runs" name="total_runs" placeholder="Total Runs" required /><br />
+                <!-- Additional fields for player stats -->
+                <button type="submit">Update Player</button>
+            </form>
+        </section>
+
+        <!-- Teams Section -->
+        <section id="teams" class="tab-content" style="display: none;">
+            <h2>All Teams</h2>
+            <!-- Teams table and form for adding/editing teams -->
+        </section>
+
+        <!-- Matches Section -->
+        <section id="matches" class="tab-content" style="display: none;">
+            <h2>All Matches</h2>
+            <!-- Matches table and form for adding/editing matches -->
+        </section>
+
+        <!-- Umpires Section -->
+        <section id="umpires" class="tab-content" style="display: none;">
+            <h2>All Umpires</h2>
+            <!-- Umpires table and form for adding/editing umpires -->
+        </section>
+    </div>
+</body>
+</html>
